@@ -6,14 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Momentum App</title>
     <link rel = "stylesheet" href = "style.css">
-    <style>
-        .hidden { 
-            display: none;
-        }
-        img {
-            height: 800px;
-        }
-    </style>
 </head>
 <body>
     <form class = "hidden" id = "login-form">
@@ -21,15 +13,21 @@
         <button>Log In</button>
     </form>
     <h1 id = "greeting" class = "hidden"></h1>
+    <form id = "todo-form">
+        <input required type="text" placeholder="Write a To Do and Press Eneter">
+    </form>
+    <ul id = "todo-list">
+        
+    </ul>
     <h2 id="clock">00:00:00</h2>
     <div id="quote">
         <span></span>
         <span></span>
     </div>
-    
     <script src = "js/clock.js"></script>
     <script src = "js/greeting.js"></script>
     <script src = "js/quotes.js"></script>
     <script src = "js/background.js"></script>
+    <script src = "js/todo.js"></script>
 </body>
 </html>
