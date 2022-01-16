@@ -16,6 +16,7 @@ function deleteToDo(e) {
     
     li.remove(); // 해당 부모 요소 삭제
     toDos = toDos.filter((todo) => todo.id !== parseInt(li.id)); // 배열에서도 찾아서 삭제해줌
+    // id는 문자열형태로 보이기 때문에 비교를 위해서 int로 바꿔줘야함
     saveToDos(); // 새로운 toDos로 저장
 }
 
