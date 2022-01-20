@@ -1,17 +1,15 @@
-const images = [
-    "0red.jpg", 
-    "1orange.jpg", 
-    "2yellow.jpg", 
-    "3green.jpg", 
-    "4blue.jpg", 
-    "5navy.jpg", 
-    "6purple.jpg"
+const colors = [
+    "#f7b4be", 
+    "#f7b4be", 
+    "#f6a88a", 
+    "#b2dbba", 
+    "#c3e2df", 
+    "#d3afd5"
 ];
 
-const chosenImage = images[Math.floor(Math.random() * images.length)];
+const chosenColor1 = colors[Math.floor(Math.random() * colors.length)];
+const chosenColor2 = colors[Math.floor(Math.random() * colors.length)];
 
-const bgImage = document.createElement("img"); // 새로운 요소 생성
+document.body.style.background = `linear-gradient(${chosenColor1}, ${chosenColor2})`;
 
-bgImage.src = `img/${chosenImage}`;
-
-document.body.appendChild(bgImage);
+loginForm.style.borderColor = chosenColor1;
