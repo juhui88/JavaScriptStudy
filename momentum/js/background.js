@@ -13,3 +13,4 @@ const chosenColor2 = colors[Math.floor(Math.random() * colors.length)];
 document.body.style.background = `linear-gradient(${chosenColor1}, ${chosenColor2})`;
 
 loginForm.style.borderColor = chosenColor1;
+

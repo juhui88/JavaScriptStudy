@@ -1,5 +1,5 @@
 const toDoForm = document.getElementById("todo-form");
-const toDoInput = document.querySelector("#todo-input");
+const toDoInput = document.getElementById("todo-input");
 const toDoList = document.getElementById("todo-list");
 
 toDoInput.style.background = `linear-gradient(${chosenColor1}, ${chosenColor2})`;
@@ -35,28 +35,52 @@ function paintToDo(newTodoObj) {
     const checkBtn = document.createElement("button"); // check button 태그 생성;
 
     span.innerText = newTodoObj.text; // span 내에 문구를 넣음
-    removeBtn.innerText = "deleted"; // button 내에 x를 넣음
-    checkBtn.innerText = "finished";
+    removeBtn.innerText = "🗑"; // button 내에 x를 넣음
+    checkBtn.innerText = " ";
+    
+    removeBtn.style.color = chosenColor1;
+    removeBtn.style.fontSize = "20px";
+    checkBtn.style.fontSize = "20px"
+    checkBtn.style.color = chosenColor1;
+    checkBtn.style.borderColor = chosenColor1;
+    checkBtn.style.borderRight = "3px solid"
 
-    checkBtn.style.background = `linear-gradient(${chosenColor1}, ${chosenColor2})`;
-    checkBtn.style.borderRadius = "5px";
-
-    removeBtn.style.background = `linear-gradient(${chosenColor1}, ${chosenColor2})`;
-    removeBtn.style.borderRadius = "5px";
+    span.classList.add("li-span");
+    removeBtn.classList.add(HIDDEN_CLASSNAME);
+    removeBtn.classList.add("removeBtn");
+    checkBtn.classList.add("checkBtn");
     li.id = newTodoObj.id; // li태그에 id부여
     
-    li.appendChild(span); // li로 span 감싸기
     li.appendChild(checkBtn);
+    li.appendChild(span); // li로 span 감싸기
     li.appendChild(removeBtn); // li로 button 감싸기
     
+    li.classList.add("unchecked");
     toDoList.appendChild(li); // todoList 안에 li 넣기
 
     checkBtn.addEventListener("click", checkToDo);
-    checkBtn.addEventListener("mouseover", function(e) {
-        
+    li.addEventListener("mouseover", function() {
+        removeBtn.classList.remove(HIDDEN_CLASSNAME);
+        checkBtn.innerText = "🗸";
+    })
+    li.addEventListener("mouseout", function() {
+        removeBtn.classList.add(HIDDEN_CLASSNAME);
+        checkBtn.innerText = " ";
     })
     removeBtn.addEventListener("click", deleteToDo); // click시 해당 목록 삭제
-
+    checkBtn.addEventListener("click", function() {
+        if (li.className = "unchecked") {
+            span.style.textDecoration = "line-through";
+            li.classList.remove("unchecked");
+        }
+        else {
+            span.style.textDecoration = "none";
+        }
+        
+    })
+    
+    toDoList.style.borderRadius = "5px";
+    toDoList.style.borderColor = chosenColor1;
 }
 
 function handleToDoSubmit(e) {
