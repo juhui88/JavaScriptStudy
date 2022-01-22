@@ -4,6 +4,7 @@
 body {
   text-align: center;
   height: 91vh;
+  color: #767171;
 }
 .momentum {
   margin: 75px auto;
@@ -20,6 +21,7 @@ header {
 }
 input {
   border: none;
+  outline: none;
 }
 #login-form {
   border: 3px solid;
@@ -63,6 +65,7 @@ button {
   width: 350px;
   margin: 0 auto;
   margin-top: 20px;
+  margin-bottom: 20px;
   padding-left: 0;
 }
 li {
@@ -74,4 +77,5 @@ li {
 .li-span {
   text-align: left;
   margin-left: 10px;
+  color: #4e4c4c;
 }

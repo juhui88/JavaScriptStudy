@@ -5,11 +5,18 @@ const toDoList = document.getElementById("todo-list");
 toDoInput.style.background = `linear-gradient(${chosenColor1}, ${chosenColor2})`;
 
 const TODOS_KEY = "todos";
+const CHECECKTODOS_KEY = "checktodos";
+const UNCHECKED_CLASSNAME = "unchecked"
 
 let toDos = [];
+let checkToDos = [];
 
 function saveToDos() {
     localStorage.setItem(TODOS_KEY, JSON.stringify(toDos)); // localStorage에 문자열 형태로 넣어줌
+}
+
+function saveCheckedToDos() {
+    localStorage.setItem(CHECECKTODOS_KEY, JSON.stringify(checkToDos));
 }
 
 function deleteToDo(e) {
@@ -20,15 +27,51 @@ function deleteToDo(e) {
     toDos = toDos.filter((todo) => todo.id !== parseInt(li.id)); // 배열에서도 찾아서 삭제해줌
     // id는 문자열형태로 보이기 때문에 비교를 위해서 int로 바꿔줘야함
     saveToDos(); // 새로운 toDos로 저장
+    if (toDos.length == 0) {
+        toDoList.style.display = "none";
+    }
 }
 
 function checkToDo(e) {
-    const li = e.target.parentElement;
+    const li = e.target.parentElement; // 부모 요소 얻기
+    const checkBtn = li.children[0]; // 부모의 자식들 중 첫번째
+    const span = li.children[1]; // 두번쨰
 
-    console.log(li);
+
+    if (li.className == UNCHECKED_CLASSNAME) { // li의 클래스네임 확인 체크되어있지 않은 상태였다면
+        span.style.textDecoration = "line-through";
+        span.style.color = chosenColor1;
+        checkBtn.innerText = "🗸"; // 체크표시하고 글자밑줄, 색 바꿔줌
+        li.classList.remove(UNCHECKED_CLASSNAME); // 그리고 unchecked지워줌
+
+        if (checkToDos.find())
+        const checkedTodoObj = { 
+            text: span.outerText,
+            id: li.id,
+        };
+
+        checkToDos.push(checkedTodoObj);
+        console.log("check", checkToDos);
+    }else{ // 체크되어 있는 상태였다면
+        span.style.textDecoration = "none";
+        span.style.color = "#4e4c4c";
+        checkBtn.innerText = " "; // 원 상태로 복귀
+        li.classList.add(UNCHECKED_CLASSNAME); // 다시 unchecked 추가
+        
+        checkToDos = checkToDos.filter((checktodo) => checktodo.id !== parseInt(li.id));
+        console.log("uncheck", checkToDos);
+        console.log("li.id", li.id);
+
+    }
+   
+    // saveCheckedToDos();
+
+
 }
 
 function paintToDo(newTodoObj) {
+    toDoList.style.display = "";
+
     const li = document.createElement("li"); // li태그 생성
     const span = document.createElement("span"); // span태그 생성
     const removeBtn = document.createElement("button"); // remove button 태그 생성
@@ -55,7 +98,7 @@ function paintToDo(newTodoObj) {
     li.appendChild(span); // li로 span 감싸기
     li.appendChild(removeBtn); // li로 button 감싸기
     
-    li.classList.add("unchecked");
+    li.classList.add(UNCHECKED_CLASSNAME);
     toDoList.appendChild(li); // todoList 안에 li 넣기
 
     checkBtn.addEventListener("click", checkToDo);
@@ -65,20 +108,15 @@ function paintToDo(newTodoObj) {
     })
     li.addEventListener("mouseout", function() {
         removeBtn.classList.add(HIDDEN_CLASSNAME);
-        checkBtn.innerText = " ";
+        if(li.className == UNCHECKED_CLASSNAME) {
+            checkBtn.innerText = " ";
+        }else {
+            checkBtn.innerText = "🗸";
+        }
     })
     removeBtn.addEventListener("click", deleteToDo); // click시 해당 목록 삭제
-    checkBtn.addEventListener("click", function() {
-        if (li.className = "unchecked") {
-            span.style.textDecoration = "line-through";
-            li.classList.remove("unchecked");
-        }
-        else {
-            span.style.textDecoration = "none";
-        }
-        
-    })
-    
+    checkBtn.addEventListener("click", checkToDo)
+    toDoList.classList.remove(HIDDEN_CLASSNAME);
     toDoList.style.borderRadius = "5px";
     toDoList.style.borderColor = chosenColor1;
 }
@@ -96,17 +134,20 @@ function handleToDoSubmit(e) {
     };
 
     toDos.push(newTodoObj); // newTodoObj를 배열에 저장
-
+    
     paintToDo(newTodoObj); // newTodoObj를 목록에 추가함
     saveToDos();
+    
 }
 
 toDoForm.addEventListener("submit", handleToDoSubmit); // 엔터키 누르면 함수 호출
 
 const savedToDos = localStorage.getItem(TODOS_KEY); // localStorge에서 아이템 얻기
+const saveedCheckedToDos = localStorage.getItem(CHECECKTODOS_KEY);
 
 if (savedToDos !== null) { // 비어있지 않다면
     const parsedToDos = JSON.parse(savedToDos); // 배열로 바꿔줌
     toDos = parsedToDos; // toDos배열에 parsedToDos배열을 대입
     parsedToDos.forEach(paintToDo); // 각 요소에 대해 paintToDo함수 실행
+
 }
