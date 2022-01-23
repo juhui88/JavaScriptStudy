@@ -26,32 +26,35 @@ function deleteToDo(e) {
     li.remove(); // 해당 부모 요소 삭제
     toDos = toDos.filter((todo) => todo.id !== parseInt(li.id)); // 배열에서도 찾아서 삭제해줌
     // id는 문자열형태로 보이기 때문에 비교를 위해서 int로 바꿔줘야함
+    checkToDos = checkToDos.filter((checktodo) => checktodo.id !== parseInt(li.id));
     saveToDos(); // 새로운 toDos로 저장
+    saveCheckedToDos();
     if (toDos.length == 0) {
         toDoList.style.display = "none";
     }
 }
 
+
 function checkToDo(e) {
     const li = e.target.parentElement; // 부모 요소 얻기
     const checkBtn = li.children[0]; // 부모의 자식들 중 첫번째
     const span = li.children[1]; // 두번쨰
-
-
+    
     if (li.className == UNCHECKED_CLASSNAME) { // li의 클래스네임 확인 체크되어있지 않은 상태였다면
         span.style.textDecoration = "line-through";
         span.style.color = chosenColor1;
         checkBtn.innerText = "🗸"; // 체크표시하고 글자밑줄, 색 바꿔줌
         li.classList.remove(UNCHECKED_CLASSNAME); // 그리고 unchecked지워줌
 
-        if (checkToDos.find())
-        const checkedTodoObj = { 
-            text: span.outerText,
-            id: li.id,
-        };
-
+        var checkedTodoObj;
+        for(var i = 0; i < toDos.length ; i++) {
+            if (parseInt(li.id) === toDos[i].id){
+                checkedTodoObj = toDos[i];
+            }
+        }
+        
         checkToDos.push(checkedTodoObj);
-        console.log("check", checkToDos);
+        
     }else{ // 체크되어 있는 상태였다면
         span.style.textDecoration = "none";
         span.style.color = "#4e4c4c";
@@ -59,15 +62,12 @@ function checkToDo(e) {
         li.classList.add(UNCHECKED_CLASSNAME); // 다시 unchecked 추가
         
         checkToDos = checkToDos.filter((checktodo) => checktodo.id !== parseInt(li.id));
-        console.log("uncheck", checkToDos);
-        console.log("li.id", li.id);
-
+        
     }
-   
-    // saveCheckedToDos();
-
-
+    
+    saveCheckedToDos();
 }
+
 
 function paintToDo(newTodoObj) {
     toDoList.style.display = "";
@@ -101,7 +101,7 @@ function paintToDo(newTodoObj) {
     li.classList.add(UNCHECKED_CLASSNAME);
     toDoList.appendChild(li); // todoList 안에 li 넣기
 
-    checkBtn.addEventListener("click", checkToDo);
+    
     li.addEventListener("mouseover", function() {
         removeBtn.classList.remove(HIDDEN_CLASSNAME);
         checkBtn.innerText = "🗸";
@@ -119,6 +119,8 @@ function paintToDo(newTodoObj) {
     toDoList.classList.remove(HIDDEN_CLASSNAME);
     toDoList.style.borderRadius = "5px";
     toDoList.style.borderColor = chosenColor1;
+
+    
 }
 
 function handleToDoSubmit(e) {
@@ -137,17 +139,25 @@ function handleToDoSubmit(e) {
     
     paintToDo(newTodoObj); // newTodoObj를 목록에 추가함
     saveToDos();
-    
 }
+
 
 toDoForm.addEventListener("submit", handleToDoSubmit); // 엔터키 누르면 함수 호출
 
 const savedToDos = localStorage.getItem(TODOS_KEY); // localStorge에서 아이템 얻기
-const saveedCheckedToDos = localStorage.getItem(CHECECKTODOS_KEY);
+const savedCheckedToDos = localStorage.getItem(CHECECKTODOS_KEY);
 
 if (savedToDos !== null) { // 비어있지 않다면
     const parsedToDos = JSON.parse(savedToDos); // 배열로 바꿔줌
     toDos = parsedToDos; // toDos배열에 parsedToDos배열을 대입
     parsedToDos.forEach(paintToDo); // 각 요소에 대해 paintToDo함수 실행
 
+    
 }
+
+/*if (checkToDos.find(function(element) {
+            if(element.id === parseInt(li.id)){
+                return true;
+                console.log(element.id);
+            }
+        }) !== true)*/

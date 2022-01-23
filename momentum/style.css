@@ -41,7 +41,6 @@ input {
 }
 #todo-input {
   font-size: 20px;
-  background: none;
   text-align: center;
   outline: none;
   height: 25px;
@@ -62,7 +61,7 @@ button {
   background: none;
 }
 #todo-list {
-  width: 350px;
+  width: 400px;
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -78,4 +77,14 @@ li {
   text-align: left;
   margin-left: 10px;
   color: #4e4c4c;
+}
+#quote span {
+  font-style: italic;
+}
+#weather {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: white;
+  font-size: 20px;
 }

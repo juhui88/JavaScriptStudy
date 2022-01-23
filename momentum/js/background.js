@@ -8,8 +8,11 @@ const colors = [
 ];
 
 const chosenColor1 = colors[Math.floor(Math.random() * colors.length)];
-const chosenColor2 = colors[Math.floor(Math.random() * colors.length)];
+var chosenColor2 = colors[Math.floor(Math.random() * colors.length)];
 
+while (chosenColor2 === chosenColor1) {
+    chosenColor2 = colors[Math.floor(Math.random() * colors.length)];
+}
 document.body.style.background = `linear-gradient(${chosenColor1}, ${chosenColor2})`;
 
 loginForm.style.borderColor = chosenColor1;
